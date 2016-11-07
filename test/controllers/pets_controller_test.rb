@@ -37,4 +37,32 @@ class PetsControllerTest < ActionController::TestCase
     body = JSON.parse(response.body)
     assert_equal keys, body.map(&:keys).flatten.uniq.sort
   end
+
+  test "should return desired record" do
+    get :show, {id: 1}
+    assert_response :success
+
+  end
+
+  test "should return status for record that is not found" do
+    get :show, {id: 10}
+    assert_response :no_content
+  end
+
+  test "show correct page for a specific pet" do 
+    get :show, id: pets(:one).id
+    assert_response :ok
+  end
+
+  test "no content should return error on search" do
+    get :show, id: 5
+    assert_response :no_content
+  end
 end
+
+
+
+
+
+
+
